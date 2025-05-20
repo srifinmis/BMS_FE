@@ -33,6 +33,12 @@ const SummaryReport = ({ isDropped }) => {
     const [date, setDate] = useState(dayjs());
     const [lenders, setLenders] = useState([]);
     const [selectedLenders, setSelectedLenders] = useState([]);
+    const [banks, setBanks] = useState([]);
+    const [selectedBank, setSelectedBank] = useState('');
+    const [sanctions, setSanctions] = useState([]);
+    const [selectedSanction, setSelectedSanction] = useState('');
+    const [tranches, setTranches] = useState([]);
+    const [selectedTranche, setSelectedTranche] = useState('');
     const [format, setFormat] = useState("excel");
     const [sortBy, setSortBy] = useState("");
 
@@ -46,43 +52,50 @@ const SummaryReport = ({ isDropped }) => {
                 })
                 .catch((err) => console.error("Error fetching lenders:", err));
         } else if (selectedReportTypes === "tranche_details") {
-            fetch(`${API_URL}/tranche/findTwo`)
-                .then((res) => res.json())
-                .then((data) => {
+            fetch(`${API_URL}/tranche/findTwo?flag=1`, {
+                method: "GET"
+            })
+                .then(res => res.json())
+                .then(data => {
                     const uniqueLendersMap = new Map();
-                    data.data.forEach(lender => {
-                        if (!uniqueLendersMap.has(lender.lender_code)) {
-                            uniqueLendersMap.set(lender.lender_code, {
-                                lender_code: lender.lender_code,
+
+                    data.data.forEach(tranche => {
+                        if (!uniqueLendersMap.has(tranche.lender_code)) {
+                            uniqueLendersMap.set(tranche.lender_code, {
+                                lender_code: tranche.lender_code,
+                                lender_name: tranche.lender_code_lender_master?.lender_name || ""
                             });
                         }
                     });
+
                     const uniqueLendersList = Array.from(uniqueLendersMap.values());
                     setLenders(uniqueLendersList);
                 })
-                .catch((err) => console.error("Failed to fetch lenders", err));
-        } else if (selectedReportTypes === "repayment_schedule") {
-            fetch(`${API_URL}/tranche/findTwo`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ flag: 1 }) // Send the flag here
+                .catch(err => console.error("Failed to fetch lenders", err));
+        }
+        else if (selectedReportTypes === "repayment_schedule") {
+            fetch(`${API_URL}/tranche/findTwo?flag=1`, {
+                method: "GET"
             })
                 .then((res) => res.json())
                 .then((data) => {
-                    const uniqueLendersMap = new Map();
-                    data.data.forEach(lender => {
-                        if (!uniqueLendersMap.has(lender.lender_code)) {
-                            uniqueLendersMap.set(lender.lender_code, {
-                                lender_code: lender.lender_code,
-                            });
-                        }
+                    const uniqueBanks = new Set();
+                    const uniqueSanctions = new Set();
+                    const uniqueTranches = new Set();
+
+                    console.log("res:", data);
+
+                    data.data.forEach((tranche) => {
+                        if (tranche.bank_name) uniqueBanks.add(tranche.bank_name);
+                        uniqueSanctions.add(tranche.sanction_id);
+                        uniqueTranches.add(tranche.tranche_id);
                     });
-                    const uniqueLendersList = Array.from(uniqueLendersMap.values());
-                    setLenders(uniqueLendersList);
+                    console.log("bank names: ", uniqueBanks)
+                    setBanks(Array.from(uniqueBanks));
+                    setSanctions(Array.from(uniqueSanctions));
+                    setTranches(Array.from(uniqueTranches));
                 })
-                .catch((err) => console.error("Failed to fetch lenders", err));        
+                .catch((err) => console.error("Failed to fetch tranche details", err));
         } else if (["daily_repayment_statement", "datewise_repayment_statement"].includes(selectedReportTypes)) {
             fetch(`${API_URL}/repaymentschedule/lenders`)
                 .then((res) => res.json())
@@ -113,18 +126,38 @@ const SummaryReport = ({ isDropped }) => {
     }, [selectedReportTypes]);
 
     const handleGenerateReport = async () => {
+        // const payload = {
+        //     reportTypes: selectedReportTypes,
+        //     banks,
+        //     sanctions,
+        //     tranches,
+        //     fromDate: fromDate ? dayjs(fromDate).format("YYYY-MM-DD") : undefined,
+        //     toDate: toDate ? dayjs(toDate).format("YYYY-MM-DD") : undefined,
+        //     date: date ? dayjs(date).format("YYYY-MM-DD") : undefined,
+        //     lenders: selectedLenders.includes("all") ? "all" : selectedLenders,
+        //     format: format,
+        //     sortBy: selectedReportTypes === "sanction_details" || selectedReportTypes === "tranche_details" || selectedReportTypes === "datewise_repayment_statement" ? sortBy : undefined,
+        // };
+        // console.log("Payload being sent:", payload);
         const payload = {
             reportTypes: selectedReportTypes,
-            fromDate: fromDate ? dayjs(fromDate).format("YYYY-MM-DD") : undefined,
-            toDate: toDate ? dayjs(toDate).format("YYYY-MM-DD") : undefined,
-            date: date ? dayjs(date).format("YYYY-MM-DD") : undefined,
-            lenders: selectedLenders.includes("all") ? "all" : selectedLenders,
-            format: format,
-            sortBy: selectedReportTypes === "sanction_details" || selectedReportTypes === "tranche_details" || selectedReportTypes === "datewise_repayment_statement" ? sortBy : undefined,
+            format
         };
-        console.log("Payload being sent:", payload);
-        
 
+        if (banks.length) payload.banks = banks;
+        if (sanctions.length) payload.sanctions = sanctions;
+        if (tranches.length) payload.tranches = tranches;
+        if (fromDate) payload.fromDate = dayjs(fromDate).format("YYYY-MM-DD");
+        if (toDate) payload.toDate = dayjs(toDate).format("YYYY-MM-DD");
+        if (date) payload.date = dayjs(date).format("YYYY-MM-DD");
+
+        if (selectedLenders.length)
+            payload.lenders = selectedLenders.includes("all") ? "all" : selectedLenders;
+
+        if (["sanction_details", "tranche_details", "datewise_repayment_statement"].includes(selectedReportTypes)) {
+            payload.sortBy = sortBy;
+        }
+        console.log("Payload being sent:", payload);
         const reportEndpoints = {
             lender_master: "/generate-lender-master",
             sanction_details: "/generate-sanction-master",
@@ -188,9 +221,9 @@ const SummaryReport = ({ isDropped }) => {
                     transition: "margin-left 0.3s ease",
                     width: isDropped ? "calc(100% - 180px)" : "calc(100% - 350px)",
                     padding: 3,
-                    border: "1px solid #ccc",
+                    border: "3px solid #ccc",
                     borderRadius: 2,
-                    boxShadow: "inset 0 0 10px rgba(0, 0, 0, 0.3)",
+                    // boxShadow: "inset 0 0 10px rgba(0, 0, 0, 0.3)",
                 }}
             >
                 <Typography
@@ -217,7 +250,6 @@ const SummaryReport = ({ isDropped }) => {
                                 onChange={(e) => {
                                     setSelectedReportTypes(e.target.value)
                                     setSelectedLenders("");
-                                    
                                     setFromDate(null);
                                     setToDate(null);
                                     setFormat("excel");
@@ -259,7 +291,7 @@ const SummaryReport = ({ isDropped }) => {
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <FormControl fullWidth>
-                                    <InputLabel>Lender(s)</InputLabel>
+                                    <InputLabel>Lender Code / Name(s)</InputLabel>
                                     <Select
                                         required
                                         value={selectedLenders}
@@ -324,38 +356,72 @@ const SummaryReport = ({ isDropped }) => {
                     )}
                     {selectedReportTypes === "repayment_schedule" && (
                         <>
+                            {/* <Grid item xs={12} sm={6}>
+                                <Autocomplete
+                                    freeSolo
+                                    options={banks}
+                                    value={selectedBank}
+                                    onInputChange={(e, newInputValue) => {setSelectedBank(newInputValue); }}
+                                    renderInput={(params) => (
+                                        <TextField {...params}
+                                            label="Bank Code" variant="outlined" required
+                                        />
+                                    )}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <Autocomplete
+                                    freeSolo
+                                    options={sanctions}
+                                    value={selectedSanction}
+                                    onInputChange={(e, newInputValue) => {setSelectedSanction(newInputValue); }}
+                                    renderInput={(params) => (
+                                        <TextField {...params}
+                                            label="Sanction No" variant="outlined" required
+                                        />
+                                    )}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <Autocomplete
+                                    freeSolo
+                                    options={tranches}
+                                    value={selectedTranche}
+                                    onInputChange={(e, newInputValue) => {setSelectedTranche(newInputValue); }}
+                                    renderInput={(params) => (
+                                        <TextField {...params}
+                                            label="Tranche No" variant="outlined" required
+                                        />
+                                    )}
+                                />
+                            </Grid> */}
                             <Grid item xs={12} sm={6}>
                                 <FormControl fullWidth>
                                     <InputLabel>Bank Code</InputLabel>
                                     <Select
                                         required
-                                        value={selectedLenders}
-                                        onChange={(e) => setSelectedLenders(typeof e.target.value === 'string' ? [e.target.value] : e.target.value)}
+                                        value={selectedBank}
+                                        onChange={(e) => setSelectedBank(e.target.value)}
                                         label="Bank Code"
                                     >
                                         <MenuItem value="all">All</MenuItem>
-                                        {lenders.map((lender) => (
-                                            <MenuItem key={lender.lender_code} value={lender.lender_code}>
-                                                {lender.lender_code}-{lender.lender_name}
-                                            </MenuItem>
+                                        {banks.map((bank) => (
+                                            <MenuItem key={bank} value={bank}>{bank}</MenuItem>
                                         ))}
                                     </Select>
                                 </FormControl>
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
+                            </Grid><Grid item xs={12} sm={6}>
                                 <FormControl fullWidth>
                                     <InputLabel>Sanction No</InputLabel>
                                     <Select
                                         required
-                                        value={selectedLenders}
-                                        onChange={(e) => setSelectedLenders(typeof e.target.value === 'string' ? [e.target.value] : e.target.value)}
+                                        value={selectedSanction}
+                                        onChange={(e) => setSelectedSanction(e.target.value)}
                                         label="Sanction No"
                                     >
                                         <MenuItem value="all">All</MenuItem>
-                                        {lenders.map((lender) => (
-                                            <MenuItem key={lender.lender_code} value={lender.lender_code}>
-                                                {lender.lender_code}-{lender.lender_name}
-                                            </MenuItem>
+                                        {sanctions.map((sanction) => (
+                                            <MenuItem key={sanction} value={sanction}>{sanction}</MenuItem>
                                         ))}
                                     </Select>
                                 </FormControl>
@@ -365,15 +431,13 @@ const SummaryReport = ({ isDropped }) => {
                                     <InputLabel>Tranche No</InputLabel>
                                     <Select
                                         required
-                                        value={selectedLenders}
-                                        onChange={(e) => setSelectedLenders(typeof e.target.value === 'string' ? [e.target.value] : e.target.value)}
+                                        value={selectedTranche}
+                                        onChange={(e) => setSelectedTranche(e.target.value)}
                                         label="Tranche No"
                                     >
                                         <MenuItem value="all">All</MenuItem>
-                                        {lenders.map((lender) => (
-                                            <MenuItem key={lender.lender_code} value={lender.lender_code}>
-                                                {lender.lender_code}-{lender.lender_name}
-                                            </MenuItem>
+                                        {tranches.map((tranche) => (
+                                            <MenuItem key={tranche} value={tranche}>{tranche}</MenuItem>
                                         ))}
                                     </Select>
                                 </FormControl>

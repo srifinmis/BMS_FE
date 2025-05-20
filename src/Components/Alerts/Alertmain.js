@@ -17,7 +17,7 @@ const AlertsPage = ({ isDropped }) => {
     const fetchAlerts = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`${API_URL}/alerts/list`);
+        const response = await axios.get(`${API_URL}/alert/findall`);
         if (response.data.success) {
           setAlerts(response.data.data);
         } else {
@@ -34,8 +34,16 @@ const AlertsPage = ({ isDropped }) => {
     fetchAlerts();
   }, [API_URL]);
 
+  // const handleViewDetails = (alert_id, lender_code, sanction_id, tranche_id) => {
+  //   navigate(`/alertmaker/${alert_id}`, {
+  //     state: { lender_code, approval_status, lender_name, updatedat },
+  //   });
+  // };
+
   const handleViewDetails = (alert_id) => {
-    navigate(`/alertdetails/${alert_id}`);
+    navigate(`/alertmaker/${alert_id}`, {
+      // state: { lender_code},
+    });
   };
 
   const handleAddNewAlert = () => {
@@ -55,17 +63,59 @@ const AlertsPage = ({ isDropped }) => {
   );
 
   const columns = [
-    { title: "Alert ID", dataIndex: "alert_id" },
-    { title: "Alert Type", dataIndex: "alert_type" },
-    { title: "Message", dataIndex: "message" },
-    { title: "Timestamp", dataIndex: "timestamp" },
     {
-      title: "Details",
-      dataIndex: "alert_id",
-      render: (id) => (
-        <Button type="link" onClick={() => handleViewDetails(id)}>View</Button>
-      ),
+      title: "Lender Code", dataIndex: "lender_code",
+      onHeaderCell: () => ({
+        style: { backgroundColor: "#a2b0cc", color: "black" },
+      }),
     },
+    {
+      title: "Sanction ID", dataIndex: "sanction_id",
+      onHeaderCell: () => ({
+        style: { backgroundColor: "#a2b0cc", color: "black" },
+      }),
+    },
+    {
+      title: "Tranche ID", dataIndex: "tranche_id",
+      onHeaderCell: () => ({
+        style: { backgroundColor: "#a2b0cc", color: "black" },
+      }),
+    },
+    {
+      title: "Alert Frequency", dataIndex: "alert_frequency",
+      onHeaderCell: () => ({
+        style: { backgroundColor: "#a2b0cc", color: "black" },
+      }),
+    },
+    // { title: "Message", dataIndex: "message" },
+    {
+      title: "Alert Time", dataIndex: "alert_time",
+      onHeaderCell: () => ({
+        style: { backgroundColor: "#a2b0cc", color: "black" },
+      }),
+    },
+    {
+      title: "Alert Start Date", dataIndex: "alert_start_date",
+      onHeaderCell: () => ({
+        style: { backgroundColor: "#a2b0cc", color: "black" },
+      }),
+    },
+    {
+      title: "Alert End Date", dataIndex: "alert_end_date",
+      onHeaderCell: () => ({
+        style: { backgroundColor: "#a2b0cc", color: "black" },
+      }),
+    },
+    // {
+    //   title: "Details",
+    //   dataIndex: "alert_id",
+    //   onHeaderCell: () => ({
+    //     style: { backgroundColor: "#a2b0cc", color: "black" },
+    //   }),
+    //   render: (id, record) => (
+    //     <Button type="link" onClick={() => handleViewDetails(id, record.lender_code, record.sanction_id, record.tranche_id)}>View</Button>
+    //   ),
+    // },
   ];
 
   return (
@@ -94,8 +144,8 @@ const AlertsPage = ({ isDropped }) => {
       {loading ? (
         <Spin size="large" style={{ display: "block", margin: "20px auto" }} />
       ) : (
-        <Paper elevation={3} style={{ padding: "20px", marginTop: "20px" }}>
-          <Typography variant="h6" gutterBottom>Alerts</Typography>
+        <Paper elevation={3} >
+          {/* <Typography variant="h6" gutterBottom>Alerts</Typography> */}
           {filteredAlerts.length === 0 ? (
             <p style={{ textAlign: "center" }}>No alerts available</p>
           ) : (

@@ -1,0 +1,241 @@
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1f2937;
+    color: white;
+    padding: 15px 20px;
+    position: fixed;
+    top: 0; 
+    left: 0;
+    width: 100%; 
+    z-index: 1000; 
+}
+
+.navbar h2 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    margin: 0;
+}
+
+/* User Section */
+.user-section {
+    margin-left: auto; /* Pushes it to the right */
+  position: relative;
+  color: black;
+}
+
+.user-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.user-btn:hover {
+    color: #007bff;
+}
+
+/* User Dropdown */
+.user-dropdown {
+    position: absolute;
+    right: 0;
+    top: 40px;
+    background: white;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 120px;
+}
+
+.user-dropdown p {
+    margin: 0;
+    font-weight: bold;
+}
+
+.logout-btn {
+    margin-top: 5px;
+    background: red;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.logout-btn:hover {
+    background: darkred;
+}
+
+/* Main Content Container */
+.content-container {
+    display: flex;
+    flex: 1;
+}
+.sidebar-expanded {
+    width: 170px;
+    
+}
+
+.sidebar-collapsed {
+    width: 50px;
+    /* padding: 5px; */
+}
+
+/* Sidebar Button */
+.toggle-btn {
+    width: 100%;
+    padding: 10px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.toggle-btn:hover {
+    background-color: #333;
+}
+
+/* Navigation Links */
+.nav-links {
+    margin-top: 10px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    padding: 15px;
+    gap: 10px;
+    cursor: pointer;
+    color: white;
+    position: relative;
+}
+
+/* Center icons when collapsed */
+.centered {
+    justify-content: center;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Popup Box (Positioned beside "Home") */
+.popup-box {
+    position: absolute;
+    background: white;
+    padding: 10px;
+    width: auto;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Popup Links */
+.popup-links {
+    list-style: none;
+    padding: 0;
+}
+
+.popup-links li {
+    margin: 8px 0;
+}
+
+.popup-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.popup-links a:hover {
+    color: #007bff;
+}
+  .navbar-left {
+    display: flex;
+    align-items: center;
+    /* gap: 10px; */
+  }
+  
+  .navbar-logo {
+    width: 150px;
+    background-color:white;
+    gap: 10px;
+    height: 40px;
+  }
+  /* .navbar-left img {
+    width: 150px;
+  } */
+  
+  /* User Dropdown */
+  .user-section {
+    position: relative;
+  }
+  
+  .logout-btn {
+    margin-top: 5px;
+    width: 100%;
+    padding: 5px;
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    /* background-color: #1f2937;
+    color: white;
+    padding: 10px;
+    height: 90vh;
+     transition: width 0.3s ease;  */
+    background-color: #1f2937;
+    color: white;
+    padding: 10px;
+    height: 90vh;
+    /* width: 100px; */
+    transition: width 0.3s ease;
+    margin-top: 55px;
+    position: fixed;
+    /* top: 10px; Starts 10px below the top */
+    /* left: 0; */
+    /* z-index: 999; Ensures it's above other content */
+  }
+  
+  .nav-item:hover {
+    background-color: #374151;
+  }
+  
+  .close-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    float: right;
+  }
+  

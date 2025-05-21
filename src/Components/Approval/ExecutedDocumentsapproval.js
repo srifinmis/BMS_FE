@@ -23,7 +23,10 @@ const ExecutedDocumentApproval = ({ isDropped }) => {
                 const response = await axios.get(`${API_URL}/executed/pendingData`);
                 // console.log("execution : ", response)
                 if (response.status === 201) {
-                    setLenders(response.data.data);
+                     const sortedData = response.data.data.sort(
+                        (a, b) => new Date(b.updatedat || b.createdat) - new Date(a.updatedat || a.createdat)
+                    );
+                    setLenders(sortedData);
                 } else {
                     message.error("Failed to fetch Executed Documents");
                 }

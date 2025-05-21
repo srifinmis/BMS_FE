@@ -57,21 +57,11 @@ import InterestRateChangeMain from "./Components/Mainpages/Interestchangemain.js
 import InterestRateChangeForm from "./Components/Transcations/Intrestchange.js";
 import ExcelUpload from "./Components/Transcations/Repaymentscheduleupload.js";
 
-import LoanTrancheReport from "./Components/Reports/TrancheDetailsReport.js"
-import DateWiseLoanRepaymentReport from "./Components/Reports/DatewiseRepaymentReport.js";
-import RocChangeCreationReport from "./Components/Reports/RocChangeCreationreport.js"
-import RocSatisfactionChargeReport from "./Components/Reports/RocSatisfactionChargereport.js"
-import DailyRepaymentReport from "./Components/Reports/DailyRepaymentStatmentReport.js"
-
 import ExecutedDocumentApproval from "./Components/Approval/ExecutedDocumentsapproval.js";
 import TrancheDetailsApproval from "./Components/Approval/Tranchedetailsmainapproval.js";
 import InterestRateChangeApproval from "./Components/Approval/interstrateapproval.js";
 import UTRApproval from "./Components/Approval/UTRapproval.js";
 
-
-//reports
-import LenderMasterReport from "./Components/Reports/Lendermasterreport.js";
-import SanctionMasterReport from "./Components/Reports/Sanctiondetailsreport.js";
 
 import SessionTimeout from "./Components/SessionTimeOut/sessionTimeOut.js"
 import SessionExpired from "./Components/SessionTimeOut/sessionExpired.js"
@@ -166,15 +156,8 @@ function App() {
 
           {/* reports */}
           <Route path="/Reports/SummaryReports" element={<><ProtectedRoute /><SummaryReport isDropped={drop} />, <Navbar onToggle={setDrop} /></>} />
-          <Route path="/Reports/LenderMaster" element={<><ProtectedRoute /><LenderMasterReport isDropped={drop} />, <Navbar onToggle={setDrop} /></>} />
-          <Route path="/Reports/SanctionDetails" element={<><ProtectedRoute /><SanctionMasterReport isDropped={drop} />, <Navbar onToggle={setDrop} /></>} />
-          <Route path="/Reports/LoanTrancheDetails" element={<><ProtectedRoute /><LoanTrancheReport isDropped={drop} />, <Navbar onToggle={setDrop} /></>} />
-          <Route path="/Reports/RepaymentSchedule" element={<><ProtectedRoute /><LenderMasterReport isDropped={drop} />, <Navbar onToggle={setDrop} /></>} />
-          <Route path="/Reports/DailyRepaymentStatement" element={<><ProtectedRoute /><DailyRepaymentReport isDropped={drop} />, <Navbar onToggle={setDrop} /></>} />
-          <Route path="/Reports/DataWiseLoanRepayment" element={<><ProtectedRoute /><DateWiseLoanRepaymentReport isDropped={drop} />, <Navbar onToggle={setDrop} /></>} />
-          <Route path="/Reports/ROCchangeCreation" element={<><ProtectedRoute /><RocChangeCreationReport isDropped={drop} />, <Navbar onToggle={setDrop} /></>} />
-          <Route path="/Reports/ROCSatisfactioncharge" element={<><ProtectedRoute /><RocSatisfactionChargeReport isDropped={drop} />, <Navbar onToggle={setDrop} /></>} />
-
+         
+         
           <Route path="/Roles/Rolesmain" element={<><ProtectedRoute /><RoleChangePage isDropped={drop} />, <Navbar onToggle={setDrop} /></>}></Route>
           {/* </ProtectedRoute> */}
           <Route path="/session-expired" element={<SessionExpired />} />

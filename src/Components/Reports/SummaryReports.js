@@ -837,13 +837,17 @@ const SummaryReport = ({ isDropped }) => {
                                 <Autocomplete
                                     multiple
                                     fullWidth
-                                    options={lenders}
+                                    options={[{ lender_code: "all", lender_name: "Lenders" }, ...lenders]}
                                     getOptionLabel={(option) => `${option.lender_code} - ${option.lender_name}`}
-                                    value={lenders.filter((lender) => selectedLenders.includes(lender.lender_code))}
-                                    onChange={(event, newValue) => {
+                                    value={
+                                        selectedLenders.includes("all")
+                                            ? [{ lender_code: "all", lender_name: "Lenders" }]
+                                            : lenders.filter((lender) => selectedLenders.includes(lender.lender_code))
+                                    }
+                                     onChange={(event, newValue) => {
                                         // If "All" is selected
                                         if (newValue.some((val) => val.lender_code === "all")) {
-                                            setSelectedLenders(["All"]);
+                                            setSelectedLenders(["all"]);
                                         } else {
                                             setSelectedLenders(newValue.map((val) => val.lender_code));
                                         }
@@ -869,11 +873,15 @@ const SummaryReport = ({ isDropped }) => {
                                 <Autocomplete
                                     multiple
                                     fullWidth
-                                    options={lenders}
+                                    options={[{ lender_code: "all", lender_name: "Lenders" }, ...lenders]}
                                     getOptionLabel={(option) =>
                                         `${option.lender_code} - ${option.lender_code_lender_master?.lender_name || option.lender_name}`
                                     }
-                                    value={lenders.filter((lender) => selectedLenders.includes(lender.lender_code))}
+                                    value={
+                                        selectedLenders.includes("all")
+                                            ? [{ lender_code: "all", lender_name: "Lenders" }]
+                                            : lenders.filter((lender) => selectedLenders.includes(lender.lender_code))
+                                    }
                                     onChange={(event, newValue) => {
                                         if (newValue.some((val) => val.lender_code === "all")) {
                                             setSelectedLenders(["all"]);

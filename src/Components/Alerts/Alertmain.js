@@ -81,7 +81,7 @@ const AlertsPage = ({ isDropped }) => {
       }}>
 
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <h2>Alerts Management</h2>
+        <h2>Alerts Management vvvvvvvvvvvvv</h2>
         <Input
           placeholder="Search alerts..."
           value={searchText}

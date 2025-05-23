@@ -173,7 +173,7 @@ const InterestRateChangeForm = ({ isDropped }) => {
         newErrors[field.name] = `${field.label} must be exactly ${field.length} digits`;
       }
     };
-    
+
     fieldConfig.forEach(validateField);
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -181,7 +181,7 @@ const InterestRateChangeForm = ({ isDropped }) => {
 
 
   const handleSubmit = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     if (!validateForm()) return;
 
     const createdby = localStorage.getItem("token");
@@ -198,27 +198,28 @@ const InterestRateChangeForm = ({ isDropped }) => {
       setErrors.effective_date = `Effective Date should be after Interest Start Date (${date})!`;
       alert(`Effective Date should be after Interest Start Date (${date})!`);
       return
-    } else {
-      setErrors.effective_date = "";
-    } 
+    }
+    //  else {
+    //   setErrors.effective_date = "";
+    // } 
 
-    if (validateForm()) {
-      try {
-        // console.log("final frontend sending save: ", finalFormData)
-        const response = await fetch(`${API_URL}/interest/create`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(finalFormData),
-        });
+    // if (validateForm()) {
+    try {
+      // console.log("final frontend sending save: ", finalFormData)
+      const response = await fetch(`${API_URL}/interest/create`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(finalFormData),
+      });
 
-        if (!response.ok) throw new Error(`Server Error: ${response.status}`);
+      if (!response.ok) throw new Error(`Server Error: ${response.status}`);
 
-        localStorage.setItem("submissionMessage", "Interest Rate Change Sent for Approval!");
-        localStorage.setItem("messageType", "success");
-        navigate("/DataCreation/InterestRate");
-      } catch (error) {
-        console.error("Error submitting interest rate change:", error);
-      }
+      localStorage.setItem("submissionMessage", "Interest Rate Change Sent for Approval!");
+      localStorage.setItem("messageType", "success");
+      navigate("/DataCreation/InterestRate");
+    } catch (error) {
+      console.error("Error submitting interest rate change:", error);
+      // }
     }
   };
 

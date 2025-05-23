@@ -453,7 +453,9 @@ const LenderMastermain = ({ isDropped }) => {
   ];
 
   return (
-    <Box
+    <><div style={{ zIndex: '2000', position: 'relative' }}>
+      <ToastContainer position="top-right" autoClose={5000} />
+    </div>    <Box
       style={{
         position: "fixed",
         marginTop: "70px", // navbar
@@ -466,88 +468,88 @@ const LenderMastermain = ({ isDropped }) => {
         flexDirection: "column",
       }}
     >
-      <ToastContainer position="top-right" autoClose={5000} />
-
-      {/* Fixed Header */}
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          height: "80px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "0 16px",
-          backgroundColor: "#f9f9f9",
-          zIndex: 1000,
-          // borderBottom: "1px solid #ddd",
-        }}
-      >
-        <h2 style={{ margin: 0 }}>Lender Master Creation</h2>
-        <Input
-          placeholder="Search lenders..."
-          value={searchText}
-          onChange={handleSearch}
-          style={{ width: "230px", height: "40px" }}
-        />
-        <Select
-          value={filterStatus}
-          onChange={handleFilterChange}
-          style={{ width: "180px", height: "40px" }}
-          placeholder="Filter by status"
+        {/* <ToastContainer position="top-right" zIndex="2000" autoClose={5000} /> */}
+        {/* Fixed Header */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            height: "80px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "0 16px",
+            backgroundColor: "#f9f9f9",
+            zIndex: 1000,
+            // borderBottom: "1px solid #ddd",
+          }}
         >
-          <Option value="">All</Option>
-          <Option value="Approved">Approved</Option>
-          <Option value="Rejected">Rejected</Option>
-          <Option value="Approval Pending">Approval Pending</Option>
-        </Select>
-        <Button type="primary" style={{ height: "40px" }} onClick={handleAddNewLender}>
-          Add New Lender
-        </Button>
-      </div>
-
-      {/* Scrollable Content */}
-      <div
-        style={{
-
-          marginTop: "70px",
-          // flexGrow: 1,
-          overflowY: "hidden",
-          // padding: "16px",
-          // backgroundColor: "white",
-          borderRadius: "8px",
-        }}
-      >
-        <div style={{ marginBottom: "-40px", marginTop: "20px", fontSize: "18px", color: "#555" }}>
-          Total Records: {filteredLenders.length}
+          <h2 style={{ margin: 0 }}>Lender Master Creation</h2>
+          <Input
+            placeholder="Search lenders..."
+            value={searchText}
+            onChange={handleSearch}
+            style={{ width: "230px", height: "40px" }}
+          />
+          <Select
+            value={filterStatus}
+            onChange={handleFilterChange}
+            style={{ width: "180px", height: "40px" }}
+            placeholder="Filter by status"
+          >
+            <Option value="">All</Option>
+            <Option value="Approved">Approved</Option>
+            <Option value="Rejected">Rejected</Option>
+            <Option value="Approval Pending">Approval Pending</Option>
+          </Select>
+          <Button type="primary" style={{ height: "40px" }} onClick={handleAddNewLender}>
+            Add New Lender
+          </Button>
         </div>
-        {loading ? (
-          <Spin size="large" style={{ display: "block", margin: "0px auto" }} />
-        ) : (
-          <>
-            <Table
-              bordered
-              size="small"
-              dataSource={filteredLenders}
-              columns={columns}
-              rowKey="id"
-              pagination={{
-                current: currentPage,
-                pageSize,
-                pageSizeOptions: ["5", "10", "15", "20", "30"],
-                showSizeChanger: true,
-                total: filteredLenders.length,
-                onChange: handleTableChange,
-                position: ["topRight"],
-              }}
-              scroll={{ y: 350 }}
-            />
-          </>
-        )}
-      </div>
-    </Box>
+
+        {/* Scrollable Content */}
+        <div
+          style={{
+
+            marginTop: "70px",
+            // flexGrow: 1,
+            overflowY: "hidden",
+            // padding: "16px",
+            // backgroundColor: "white",
+            borderRadius: "8px",
+          }}
+        >
+          <div style={{ marginBottom: "-40px", marginTop: "20px", fontSize: "18px", color: "#555" }}>
+            Total Records: {filteredLenders.length}
+          </div>
+          {loading ? (
+            <Spin size="large" style={{ display: "block", margin: "0px auto" }} />
+          ) : (
+            <>
+              <Table
+                bordered
+                size="small"
+                dataSource={filteredLenders}
+                columns={columns}
+                rowKey="id"
+                pagination={{
+                  current: currentPage,
+                  pageSize,
+                  pageSizeOptions: ["5", "10", "15", "20", "30"],
+                  showSizeChanger: true,
+                  total: filteredLenders.length,
+                  onChange: handleTableChange,
+                  position: ["topRight"],
+                }}
+                scroll={{ y: 350 }}
+              />
+            </>
+          )}
+        </div>
+      </Box>
+    </>
   );
 };
 

@@ -148,6 +148,7 @@ const Navbar = ({ onToggle }) => {
             color: theme.palette.common.white,
             overflowY: "auto",
             transition: "width 0.1s ease-in-out",
+            zIndex: 1000,
           },
         }}
       >
@@ -169,7 +170,7 @@ const Navbar = ({ onToggle }) => {
           {/* <hr></hr> */}
         </IconButton>
 
-        <Divider sx={{ bgcolor: "#FFFFFF"}} />
+        <Divider sx={{ bgcolor: "#FFFFFF" }} />
 
         {/* <Divider sx={{backgroundColor: theme.palette.divider }} /> */}
 
@@ -225,9 +226,10 @@ const Navbar = ({ onToggle }) => {
                   { to: "/Approve/ROCForm", label: "ROC Forms Pending Approvals" },
                   { to: "/Approve/Executeddocumentsupload", label: "Executed Documents Pending Approvals" },
                   { to: "/Approve/Tranchedetails", label: "Tranche Details Pending Approvals" },
-                  { to: "/Approve/Interestrate", label: "Interest Rate Pending Approvals" },
                   { to: "/Approve/RepaymentSchedule", label: "Repayment Schedule Pending Approvals" },
+                  { to: "/Approve/Interestrate", label: "Interest Rate Pending Approvals" },
                   { to: "/Approve/UTRUpload", label: "UTR Upload Pending Approvals" },
+                  { to: "/Approve/Alert", label: "Alert Pending Approvals" },
                 ]}
               />
             )}
@@ -245,14 +247,6 @@ const Navbar = ({ onToggle }) => {
                 collapsed={collapsed}
                 links={[
                   { to: "/Reports/SummaryReports", label: "Summary Reports" },
-                  { to: "/Reports/LenderMaster", label: "Lender Master" },
-                  { to: "/Reports/SanctionDetails", label: "Sanction Details" },
-                  { to: "/Reports/LoanTrancheDetails", label: "Loan Tranche Details" },
-                  { to: "/Reports/RepaymentSchedule", label: "Repayment Schedule" },
-                  { to: "/Reports/DailyRepaymentStatement", label: "Daily Repayment Statement" },
-                  { to: "/Reports/DataWiseLoanRepayment", label: "DataWise Repayment Statement" },
-                  { to: "/Reports/ROCchangeCreation", label: "ROC Charge Creation" },
-                  { to: "/Reports/ROCSatisfactioncharge", label: "ROC Satisfaction of Charge" },
                 ]}
               />
             )}

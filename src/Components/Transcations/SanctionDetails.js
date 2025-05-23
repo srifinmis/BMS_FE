@@ -173,7 +173,18 @@ const SanctionDetails = ({ isDropped }) => {
         ...prev,
         tenure_months: "",
       }));
-    } 
+    }
+    const createdby = localStorage.getItem("token");  // Assuming token is the user ID
+    const updatedby = localStorage.getItem("token");
+
+    const finalFormData = {
+      ...formData,
+      createdby,
+      updatedby,
+    };
+
+    // console.log("Submitting final:", finalFormData);
+
 
     if (formData.interest_type !== "Fixed") {
       finalFormData.benchmark_rate = formData.benchmark_rate;
@@ -198,7 +209,7 @@ const SanctionDetails = ({ isDropped }) => {
         processing_fee: "Processing Fee (%) must be 0 or positive number",
       }));
       return;
-    } 
+    }
     else if (otherExpenses < 0) {
       setErrors((prev) => ({
         ...prev,
@@ -259,7 +270,7 @@ const SanctionDetails = ({ isDropped }) => {
         penal_charges: "",
         syndication_fee: "",
       }));
-    } 
+    }
 
     const sanctionDate = new Date(formData.sanction_date);
     const sanctionValidity = new Date(formData.sanction_validity);
@@ -278,16 +289,6 @@ const SanctionDetails = ({ isDropped }) => {
     }
 
     // console.log("Submitting 1:", formData);
-    const createdby = localStorage.getItem("token");  // Assuming token is the user ID
-    const updatedby = localStorage.getItem("token");
-
-    const finalFormData = {
-      ...formData,
-      createdby,
-      updatedby,
-    };
-
-    // console.log("Submitting final:", finalFormData);
 
     try {
       const response = await fetch(`${API_URL}/sanction/create`, {
@@ -371,7 +372,7 @@ const SanctionDetails = ({ isDropped }) => {
                 <FormControl fullWidth required={field.required} error={!!errors[field.name]}
                   disabled={
                     (formData.interest_type === "Fixed" &&
-                    (field.name === "benchmark_rate" || field.name === "spread_floating"))
+                      (field.name === "benchmark_rate" || field.name === "spread_floating"))
                   }
                 >
                   <InputLabel>{field.label}</InputLabel>

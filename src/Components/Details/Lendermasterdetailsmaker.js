@@ -23,18 +23,18 @@ const addressBlocks = [
   {
     title: "Head Office Details",
     fields: [
-      { name: "addr1_line1", label: "Address Line 1", required: true, minLength: 10, maxLength: 225 },
+      { name: "addr1_line1", label: "Address Line 1", minLength: 10, maxLength: 225 },
       { name: "addr1_line2", label: "Address Line 2", minLength: 10, maxLength: 225 },
       { name: "addr1_line3", label: "Address Line 3", minLength: 10, maxLength: 225 },
-      { name: "addr1_contact1", label: "Contact 1", required: true, type: "number", length: 10 },
+      { name: "addr1_contact1", label: "Contact 1", type: "number", length: 10 },
       { name: "addr1_contact2", label: "Contact 2", type: "number", length: 10 },
       { name: "addr1_contact3", label: "Contact 3", type: "number", length: 10 },
-      { name: "addr1_email1", label: "Lender Email 1", required: true, type: "email" },
+      { name: "addr1_email1", label: "Lender Email 1", type: "email" },
       { name: "addr1_email2", label: "Lender Email 2", type: "email" },
       { name: "addr1_email3", label: "Lender Email 3", type: "email" },
-      { name: "addr1_spoc_name", label: "SPOC Name", required: true, minLength: 6, maxLength: 225 },
-      { name: "addr1_spoc_contact", label: "SPOC Contact", required: true, type: "number", length: 10 },
-      { name: "addr1_spoc_email", label: "SPOC Email", required: true, type: "email" }
+      { name: "addr1_spoc_name", label: "SPOC Name", minLength: 6, maxLength: 225 },
+      { name: "addr1_spoc_contact", label: "SPOC Contact", type: "number", length: 10 },
+      { name: "addr1_spoc_email", label: "SPOC Email", type: "email" }
     ]
   },
   {

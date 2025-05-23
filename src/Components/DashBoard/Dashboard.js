@@ -66,9 +66,8 @@ const Dashboard = ({ isDropped }) => {
         transition: "margin-left 0.3s ease",
         width: isDropped ? "calc(100% - 180px)" : "calc(100% - 350px)",
         padding: 3,
-        border: "1px solid #ccc",
+        border: "3px solid #ccc",
         borderRadius: 2,
-        boxShadow: "inset 0 0 10px rgba(0, 0, 0, 0.3)",
       }}
     >
       <ToastContainer position="top-right" autoClose={5000} />

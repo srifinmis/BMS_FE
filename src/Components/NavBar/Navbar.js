@@ -148,6 +148,7 @@ const Navbar = ({ onToggle }) => {
             color: theme.palette.common.white,
             overflowY: "auto",
             transition: "width 0.1s ease-in-out",
+            zIndex: 1000,
           },
         }}
       >
@@ -228,6 +229,7 @@ const Navbar = ({ onToggle }) => {
                   { to: "/Approve/RepaymentSchedule", label: "Repayment Schedule Pending Approvals" },
                   { to: "/Approve/Interestrate", label: "Interest Rate Pending Approvals" },
                   { to: "/Approve/UTRUpload", label: "UTR Upload Pending Approvals" },
+                  { to: "/Approve/Alert", label: "Alert Pending Approvals" },
                 ]}
               />
             )}

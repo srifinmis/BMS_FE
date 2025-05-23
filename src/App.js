@@ -41,6 +41,7 @@ import Executedmaker from "./Components/Details/Executedviewmaker.js"
 import Tranchemaker from "./Components/Details/Tranchemaker.js"
 import Interestratemaker from "./Components/Details/InterestRatemaker.js"
 import UTRmaker from "./Components/Details/UTRmaker.js"
+import Alertmaker from "./Components/Details/Alertmaker.js"
 
 import AlertsPage from "./Components/Alerts/Alertmain.js";
 import Addalert from "./Components/Alerts/AddAlert.js";
@@ -61,6 +62,7 @@ import ExecutedDocumentApproval from "./Components/Approval/ExecutedDocumentsapp
 import TrancheDetailsApproval from "./Components/Approval/Tranchedetailsmainapproval.js";
 import InterestRateChangeApproval from "./Components/Approval/interstrateapproval.js";
 import UTRApproval from "./Components/Approval/UTRapproval.js";
+import AlertApproval from "./Components/Approval/Alertapproval.js";
 
 
 import SessionTimeout from "./Components/SessionTimeOut/sessionTimeOut.js"
@@ -118,6 +120,7 @@ function App() {
           <Route path="/Approve/Tranchedetails" element={<><ProtectedRoute /><TrancheDetailsApproval isDropped={drop} />, <Navbar onToggle={setDrop} /></>} />
           <Route path="/Approve/Interestrate" element={<><ProtectedRoute /><InterestRateChangeApproval isDropped={drop} />, <Navbar onToggle={setDrop} /></>} />
           <Route path="/Approve/UTRUpload" element={<><ProtectedRoute /><UTRApproval isDropped={drop} />, <Navbar onToggle={setDrop} /></>} />
+          <Route path="/Approve/Alert" element={<><ProtectedRoute /><AlertApproval isDropped={drop} />, <Navbar onToggle={setDrop} /></>} />
 
 
           {/* Approver */}
@@ -141,7 +144,9 @@ function App() {
           <Route path="/executedmaker/:sanction_id" element={<><ProtectedRoute /><Executedmaker isDropped={drop} />, <Navbar onToggle={setDrop} /> </>} />
           <Route path="/tranchemaker/:tranche_id" element={<><ProtectedRoute /><Tranchemaker isDropped={drop} />, <Navbar onToggle={setDrop} /> </>} />
           <Route path="/interestratemaker/:sanction_id" element={<><ProtectedRoute /><Interestratemaker isDropped={drop} />, <Navbar onToggle={setDrop} /> </>} />
-          <Route path="/UTRmaker/:tranche_id" element={<><ProtectedRoute /><UTRmaker isDropped={drop} />, <Navbar onToggle={setDrop} /> </>} />
+          <Route path="/UTRmaker/:sanction_id" element={<><ProtectedRoute /><UTRmaker isDropped={drop} />, <Navbar onToggle={setDrop} /> </>} />
+          <Route path="/alertmaker/:sanction_id" element={<><ProtectedRoute /><Alertmaker isDropped={drop} />, <Navbar onToggle={setDrop} /> </>} />
+
 
           <Route path="/Alerts/Alertmain" element={<><ProtectedRoute /><AlertsPage isDropped={drop} />, <Navbar onToggle={setDrop} /></>} />
           <Route path="/LenderMaster" element={<><ProtectedRoute /><LenderMaster isDropped={drop} />, <Navbar onToggle={setDrop} /></>} />
@@ -156,8 +161,8 @@ function App() {
 
           {/* reports */}
           <Route path="/Reports/SummaryReports" element={<><ProtectedRoute /><SummaryReport isDropped={drop} />, <Navbar onToggle={setDrop} /></>} />
-         
-         
+
+
           <Route path="/Roles/Rolesmain" element={<><ProtectedRoute /><RoleChangePage isDropped={drop} />, <Navbar onToggle={setDrop} /></>}></Route>
           {/* </ProtectedRoute> */}
           <Route path="/session-expired" element={<SessionExpired />} />
